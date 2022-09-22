@@ -1,0 +1,12 @@
+.venv
+*.pem
+*.json
+secrets.json
+__pycache__/
+banned/
+data/
+icon/
+includes/
+logs/
+users/
+waves/
