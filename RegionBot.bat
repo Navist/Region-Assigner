@@ -1,6 +1,6 @@
 @echo off
 @title RegionBot
-echo Starting..
+echo Starting...
 :main
 python main.py
 echo Bot lost connection

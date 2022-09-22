@@ -11,48 +11,6 @@ class regionRoles(commands.Cog):
     def __init__(self, client: commands.Bot):
         self.client = client
 
-    # @app_commands.command(name='na', description='Applies the North America region tag to your nickname.')
-    # async def region_NA(self, interaction: discord.Interaction):
-    #     region = 'NA'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
-    # @app_commands.command(name='sa', description='Applies the South America region tag to your nickname.')
-    # async def region_SA(self, interaction: discord.Interaction):
-    #     region = 'SA'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
-    # @app_commands.command(name='oce', description='Applies the Oceanic region tag to your nickname.')
-    # async def region_OCE(self, interaction: discord.Interaction):
-    #     region = 'OCE'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
-    # @app_commands.command(name='as', description='Applies the Asia region tag to your nickname.')
-    # async def region_AS(self, interaction: discord.Interaction):
-    #     region = 'AS'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
-    # @app_commands.command(name='eu', description='Applies the Europe region tag to your nickname.')
-    # async def region_EU(self, interaction: discord.Interaction):
-    #     region = 'EU'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
-    # @app_commands.command(name='ru', description='Applies the Russia region tag to your nickname.')
-    # async def region_RU(self, interaction: discord.Interaction):
-    #     region = 'RU'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
-    # @app_commands.command(name='au', description='Applies the Australia region tag to your nickname.')
-    # async def region_AU(self, interaction: discord.Interaction):
-    #     region = 'AU'
-    #     new_nick = await self.update_region(f'[{region}] ', interaction.user)
-    #     await self.edit_n_message(interaction, region, new_nick)
-
 
     @app_commands.command(name='region', description='Applies the selected region to your Discord nickname.')
     @app_commands.guild_only
@@ -106,8 +64,6 @@ class regionRoles(commands.Cog):
         else:
             return False
 
-# async def setup(client: commands.Bot):
-#   await client.add_cog(regionRoles(client), guilds=[discord.Object(id=356833056562348042)])
 
 async def setup(client):
     await client.add_cog(regionRoles(client))

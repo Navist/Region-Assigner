@@ -1,60 +1,47 @@
-from modulefinder import Module
-from typing import Any
+import asyncio
+import traceback
+
 import discord
-from discord.ext import commands
 from discord import app_commands
 from discord.app_commands import Choice
-from importlib import reload
-import asyncio
+from discord.ext import commands
+
 import consolePrint
 
-class reloadExtension(commands.Cog):
+
+class ExtensionManager(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-
-    @app_commands.command(name='reload_module', description="Reloads a module that is outside the normal scope of bot.")
+    @app_commands.command(name='extension_controller', description="Function for managing modules.")
     @app_commands.default_permissions(administrator=True)
     @app_commands.checks.has_permissions(administrator=True)
-    async def reload_module(self, inter: discord.Interaction, module_name: str):
-        module_name = reload(eval(module_name))
+    @app_commands.choices(action_type=[
+        Choice(name='Reload', value='reload'),
+        Choice(name='Load', value='load'),
+        Choice(name='Unload', value='unload')
+    ])
+    async def extension_controller(self, inter: discord.Interaction, module_name: str, action_type: Choice[str]):
 
-        await consolePrint.console_print("module-reload", f"{module_name}")
-        await inter.response.send_message(f"{module_name} has been reloaded.", ephemeral=True)
+        if action_type.value == 'load':
+            await self.client.load_extension(module_name)
 
-    @reload_module.error
-    async def reload_module_error(self, inter, error):
+        elif action_type.value == 'reload':
+            await self.client.reload_extension(module_name)
+
+        elif action_type.value == 'unload':
+            await self.client.unload_extension(module_name)
+
+        await self.ex_controller(module_name, action_type.value, inter)
+
+    async def ex_controller(self, module_name, action_type, inter):
+        await consolePrint.console_print(f"module-{action_type}", f"{module_name}")
+        await inter.response.send_message(f"{module_name} has been {action_type}ed.", ephemeral=True)
+
+    @extension_controller.error
+    async def extension_controller_error(self, inter, error):
         await inter.response.send_message(error, ephemeral=True)
-
-    @app_commands.command(name='re', description='Reloads an extension.')
-    @app_commands.default_permissions(administrator=True)
-    @app_commands.checks.has_permissions(administrator=True)
-    async def reloadEx(self, interaction: discord.Interaction, extension: str):
-        try:
-            await self.client.reload_extension(extension)
-        except Exception as error:
-            await interaction.response.send_message(error, ephemeral=True)
-            await consolePrint.console_print("module-error", f"{extension}\n{error}")
-            return
-        await consolePrint.console_print("module-reload", f"{extension}")
-        await interaction.response.send_message(f"Reloaded {extension}", ephemeral=True)
-
-
-    @app_commands.command(name='le', description='Loads an extension.')
-    @app_commands.default_permissions(administrator=True)
-    @app_commands.describe(extension="Which extension would you like to load?")
-    @app_commands.checks.has_permissions(administrator=True)
-    async def loadEx(self, interaction: discord.Interaction, extension: str):
-        await consolePrint.console_print("module-load", f"{extension}")
-        try:
-            await self.client.load_extension(extension)
-        except Exception as error:
-            await interaction.response.send_message(error, ephemeral=True)
-            await consolePrint.console_print("module-error", f"{extension}\n{error}")
-            return
-
-        await interaction.response.send_message(f"Loaded {extension}", ephemeral=True)
 
 
 async def setup(client):
-    await client.add_cog(reloadExtension(client))
+    await client.add_cog(ExtensionManager(client))

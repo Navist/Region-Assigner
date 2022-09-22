@@ -3,10 +3,8 @@ from discord import app_commands
 from discord.app_commands import Choice
 import discord
 import asyncio
-from datetime import datetime
 import traceback
 from consolePrint import console_print
-import qrcode
 
 
 

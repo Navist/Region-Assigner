@@ -7,7 +7,9 @@ from discord.ext.commands import Bot
 import traceback
 
 
-#https://discord.com/oauth2/authorize?client_id=1012726552003358862&permissions=0&scope=bot%20applications.commands
+#Bot Invite link: 
+# client_id must be the ID of your bot application
+# https://discord.com/oauth2/authorize?client_id=1012726552003358862&permissions=0&scope=bot%20applications.commands
 
 
 BOT_PREFIX = '>'
@@ -19,7 +21,7 @@ intents.integrations = True
 
 client = commands.Bot(command_prefix=BOT_PREFIX, case_insensitive=True, intents=intents)
 client.secrets = {}
-EXTENSIONS = ['regionRoles', 'reloadExtension', 'commands'] # 'purge' 'proViewer'  
+EXTENSIONS = ['regionRoles', 'reloadExtension', 'commands']
 
 with open('secrets.json', 'r') as f:
     client.secrets = json.load(f)
@@ -42,5 +44,3 @@ async def main():
         await client.start(DiscordToken)
 
 asyncio.run(main())
-
-# client.run(DiscordToken)
